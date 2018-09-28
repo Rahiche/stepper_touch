@@ -8,7 +8,7 @@
 Please :star: this repo and share it with others
 
 # gif
-<img src="https://github.com/Rahiche/switches_kit/blob/master/lib/gifs/LabledSwitch-theme.gif?raw=true" width="300"/>
+<img src="https://github.com/Rahiche/stepper_touch/blob/master/gif/steppergif.gif?raw=true" width="300"/>
 
 ### Created
 
