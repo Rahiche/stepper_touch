@@ -1,4 +1,7 @@
 # stepper_touch
+<a href="https://stackoverflow.com/questions/tagged/flutter?sort=votes">
+   <img alt="Awesome Flutter" src="https://img.shields.io/badge/Awesome-Flutter-blue.svg?longCache=true&style=flat-square" />
+</a>
 
  the concept of the widget inspired
  from [Nikolay Kuchkarov](https://dribbble.com/shots/3368130-Stepper-Touch).
