@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 
-
 /// the concept of the widget inspired
 /// from [Nikolay Kuchkarov](https://dribbble.com/shots/3368130-Stepper-Touch).
 /// i extended  the functionality to be more useful in real world applications
@@ -169,7 +168,7 @@ class _Stepper2State extends State<StepperTouch>
     }
     if (widget.withSpring) {
       final SpringDescription _kDefaultSpring =
-      new SpringDescription.withDampingRatio(
+          new SpringDescription.withDampingRatio(
         mass: 0.9,
         stiffness: 250.0,
         ratio: 0.6,
