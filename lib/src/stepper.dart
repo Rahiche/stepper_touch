@@ -11,6 +11,9 @@ class StepperTouch extends StatefulWidget {
     this.onChanged,
     this.direction = Axis.horizontal,
     this.withSpring = true,
+    this.counterColor = const Color(0xFF6D72FF),
+    this.dragButtonColor = Colors.white,
+    this.buttonsColor = Colors.white,
   }) : super(key: key);
 
   /// the orientation of the stepper its horizontal or vertical.
@@ -25,6 +28,10 @@ class StepperTouch extends StatefulWidget {
   /// if you want a springSimulation to happens the the user let go the stepper
   /// defaults to true
   final bool withSpring;
+
+  final Color counterColor;
+  final Color dragButtonColor;
+  final Color buttonsColor;
 
   @override
   _Stepper2State createState() => _Stepper2State();
@@ -91,12 +98,13 @@ class _Stepper2State extends State<StepperTouch>
               Positioned(
                 left: widget.direction == Axis.horizontal ? 10.0 : null,
                 bottom: widget.direction == Axis.horizontal ? null : 10.0,
-                child: Icon(Icons.remove, size: 40.0, color: Colors.white),
+                child:
+                    Icon(Icons.remove, size: 40.0, color: widget.buttonsColor),
               ),
               Positioned(
                 right: widget.direction == Axis.horizontal ? 10.0 : null,
                 top: widget.direction == Axis.horizontal ? null : 10.0,
-                child: Icon(Icons.add, size: 40.0, color: Colors.white),
+                child: Icon(Icons.add, size: 40.0, color: widget.buttonsColor),
               ),
               GestureDetector(
                 onHorizontalDragStart: _onPanStart,
@@ -105,7 +113,7 @@ class _Stepper2State extends State<StepperTouch>
                 child: SlideTransition(
                   position: _animation,
                   child: Material(
-                    color: Colors.white,
+                    color: widget.dragButtonColor,
                     shape: const CircleBorder(),
                     elevation: 5.0,
                     child: Center(
@@ -120,7 +128,7 @@ class _Stepper2State extends State<StepperTouch>
                           '$_value',
                           key: ValueKey<int>(_value),
                           style: TextStyle(
-                              color: Color(0xFF6D72FF), fontSize: 56.0),
+                              color: widget.counterColor, fontSize: 56.0),
                         ),
                       ),
                     ),
