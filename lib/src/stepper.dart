@@ -14,11 +14,19 @@ class StepperTouch extends StatefulWidget {
     this.counterColor = const Color(0xFF6D72FF),
     this.dragButtonColor = Colors.white,
     this.buttonsColor = Colors.white,
+    this.decraseLimaition=double.negativeInfinity,
+    this.increaseLimaition=double.infinity,
+
   }) : super(key: key);
 
   /// the orientation of the stepper its horizontal or vertical.
   final Axis direction;
 
+  /// the limit of decrease
+  final double decraseLimaition;
+
+  /// the limit of decrease
+  final double increaseLimaition;
   /// the initial value of the stepper
   final int initialValue;
 
@@ -44,6 +52,7 @@ class _Stepper2State extends State<StepperTouch>
   int _value;
   double _startAnimationPosX;
   double _startAnimationPosY;
+
 
   @override
   void initState() {
@@ -99,7 +108,7 @@ class _Stepper2State extends State<StepperTouch>
                 left: widget.direction == Axis.horizontal ? 10.0 : null,
                 bottom: widget.direction == Axis.horizontal ? null : 10.0,
                 child:
-                    Icon(Icons.remove, size: 40.0, color: widget.buttonsColor),
+                Icon(Icons.remove, size: 40.0, color: widget.buttonsColor),
               ),
               Positioned(
                 right: widget.direction == Axis.horizontal ? 10.0 : null,
@@ -168,15 +177,15 @@ class _Stepper2State extends State<StepperTouch>
     bool isHor = widget.direction == Axis.horizontal;
     bool changed = false;
     if (_controller.value <= -0.20) {
-      setState(() => isHor ? _value-- : _value++);
+      setState(() => isHor ? _value==widget.decraseLimaition.toInt()?_value=0: _value-- :  _value==widget.increaseLimaition.toInt()?_value: _value++);
       changed = true;
     } else if (_controller.value >= 0.20) {
-      setState(() => isHor ? _value++ : _value--);
+      setState(() => isHor ? _value==widget.increaseLimaition.toInt()?_value: _value++ : _value==widget.decraseLimaition.toInt()?_value=0: _value--);
       changed = true;
     }
     if (widget.withSpring) {
       final SpringDescription _kDefaultSpring =
-          new SpringDescription.withDampingRatio(
+      new SpringDescription.withDampingRatio(
         mass: 0.9,
         stiffness: 250.0,
         ratio: 0.6,
