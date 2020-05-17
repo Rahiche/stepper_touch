@@ -1,11 +1,22 @@
+
+
+# Edite this repo and fix some bugs!
+add min and max limition value to stepper.
+
+
+
+
 # stepper_touch
 <a href="https://stackoverflow.com/questions/tagged/flutter?sort=votes">
    <img alt="Awesome Flutter" src="https://img.shields.io/badge/Awesome-Flutter-blue.svg?longCache=true&style=flat-square" />
 </a>
 
+
+
  the concept of the widget inspired
  from [Nikolay Kuchkarov](https://dribbble.com/shots/3368130-Stepper-Touch).
  i extended  the functionality to be more useful in real world applications
+'
 
 # Thank _You_!
 Please :star: this repo and share it with others
