@@ -98,13 +98,26 @@ class _Stepper2State extends State<StepperTouch>
               Positioned(
                 left: widget.direction == Axis.horizontal ? 10.0 : null,
                 bottom: widget.direction == Axis.horizontal ? null : 10.0,
-                child:
-                    Icon(Icons.remove, size: 40.0, color: widget.buttonsColor),
+                child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _value--;
+                      });
+                    },
+                    child: Icon(Icons.remove,
+                        size: 40.0, color: widget.buttonsColor)),
               ),
               Positioned(
                 right: widget.direction == Axis.horizontal ? 10.0 : null,
                 top: widget.direction == Axis.horizontal ? null : 10.0,
-                child: Icon(Icons.add, size: 40.0, color: widget.buttonsColor),
+                child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _value++;
+                      });
+                    },
+                    child: Icon(Icons.add,
+                        size: 40.0, color: widget.buttonsColor)),
               ),
               GestureDetector(
                 onHorizontalDragStart: _onPanStart,
