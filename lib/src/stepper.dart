@@ -5,16 +5,17 @@ import 'package:flutter/physics.dart';
 /// from [Nikolay Kuchkarov](https://dribbble.com/shots/3368130-Stepper-Touch).
 /// i extended  the functionality to be more useful in real world applications
 class StepperTouch extends StatefulWidget {
-  const StepperTouch({
-    Key key,
-    this.initialValue,
-    this.onChanged,
-    this.direction = Axis.horizontal,
-    this.withSpring = true,
-    this.counterColor = const Color(0xFF6D72FF),
-    this.dragButtonColor = Colors.white,
-    this.buttonsColor = Colors.white,
-  }) : super(key: key);
+  const StepperTouch(
+      {Key key,
+      this.initialValue,
+      this.onChanged,
+      this.direction = Axis.horizontal,
+      this.withSpring = true,
+      this.counterColor = const Color(0xFF6D72FF),
+      this.dragButtonColor = Colors.white,
+      this.buttonsColor = Colors.white,
+      this.signed = false})
+      : super(key: key);
 
   /// the orientation of the stepper its horizontal or vertical.
   final Axis direction;
@@ -28,11 +29,10 @@ class StepperTouch extends StatefulWidget {
   /// if you want a springSimulation to happens the the user let go the stepper
   /// defaults to true
   final bool withSpring;
-
   final Color counterColor;
   final Color dragButtonColor;
   final Color buttonsColor;
-
+  final bool signed;
   @override
   _Stepper2State createState() => _Stepper2State();
 }
@@ -40,11 +40,10 @@ class StepperTouch extends StatefulWidget {
 class _Stepper2State extends State<StepperTouch>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
-  Animation _animation;
+  Animation<Offset> _animation;
   int _value;
   double _startAnimationPosX;
   double _startAnimationPosY;
-
   @override
   void initState() {
     super.initState();
@@ -53,12 +52,11 @@ class _Stepper2State extends State<StepperTouch>
         AnimationController(vsync: this, lowerBound: -0.5, upperBound: 0.5);
     _controller.value = 0.0;
     _controller.addListener(() {});
-
     if (widget.direction == Axis.horizontal) {
-      _animation = Tween<Offset>(begin: Offset(0.0, 0.0), end: Offset(1.5, 0.0))
+      _animation = Tween<Offset>(begin: const Offset(0.0, 0.0), end: const Offset(1.5, 0.0))
           .animate(_controller);
     } else {
-      _animation = Tween<Offset>(begin: Offset(0.0, 0.0), end: Offset(0.0, 1.5))
+      _animation = Tween<Offset>(begin: const Offset(0.0, 0.0), end: const Offset(0.0, 1.5))
           .animate(_controller);
     }
   }
@@ -70,13 +68,13 @@ class _Stepper2State extends State<StepperTouch>
   }
 
   @override
-  void didUpdateWidget(oldWidget) {
+  void didUpdateWidget(StepperTouch oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.direction == Axis.horizontal) {
-      _animation = Tween<Offset>(begin: Offset(0.0, 0.0), end: Offset(1.5, 0.0))
+      _animation = Tween<Offset>(begin: const Offset(0.0, 0.0), end: const Offset(1.5, 0.0))
           .animate(_controller);
     } else {
-      _animation = Tween<Offset>(begin: Offset(0.0, 0.0), end: Offset(0.0, 1.5))
+      _animation = Tween<Offset>(begin: const Offset(0.0, 0.0), end: const Offset(0.0, 1.5))
           .animate(_controller);
     }
   }
@@ -98,13 +96,28 @@ class _Stepper2State extends State<StepperTouch>
               Positioned(
                 left: widget.direction == Axis.horizontal ? 10.0 : null,
                 bottom: widget.direction == Axis.horizontal ? null : 10.0,
-                child:
-                    Icon(Icons.remove, size: 40.0, color: widget.buttonsColor),
+                child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        if (widget.signed || _value > 0) {
+                          _value--;
+                        }
+                      });
+                    },
+                    child: Icon(Icons.remove,
+                        size: 40.0, color: widget.buttonsColor)),
               ),
               Positioned(
                 right: widget.direction == Axis.horizontal ? 10.0 : null,
                 top: widget.direction == Axis.horizontal ? null : 10.0,
-                child: Icon(Icons.add, size: 40.0, color: widget.buttonsColor),
+                child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _value++;
+                      });
+                    },
+                    child: Icon(Icons.add,
+                        size: 40.0, color: widget.buttonsColor)),
               ),
               GestureDetector(
                 onHorizontalDragStart: _onPanStart,
@@ -143,8 +156,8 @@ class _Stepper2State extends State<StepperTouch>
   }
 
   double offsetFromGlobalPos(Offset globalPosition) {
-    RenderBox box = context.findRenderObject() as RenderBox;
-    Offset local = box.globalToLocal(globalPosition);
+    final RenderBox box = context.findRenderObject() as RenderBox;
+    final Offset local = box.globalToLocal(globalPosition);
     _startAnimationPosX = ((local.dx * 0.75) / box.size.width) - 0.4;
     _startAnimationPosY = ((local.dy * 0.75) / box.size.height) - 0.4;
     if (widget.direction == Axis.horizontal) {
@@ -165,18 +178,31 @@ class _Stepper2State extends State<StepperTouch>
 
   void _onPanEnd(DragEndDetails details) {
     _controller.stop();
-    bool isHor = widget.direction == Axis.horizontal;
+    final bool isHor = widget.direction == Axis.horizontal;
     bool changed = false;
     if (_controller.value <= -0.20) {
-      setState(() => isHor ? _value-- : _value++);
+      setState(() {
+        if (isHor) {
+          if (widget.signed || _value > 0) {
+            _value--;
+          }
+        } else
+          _value++;
+      });
       changed = true;
     } else if (_controller.value >= 0.20) {
-      setState(() => isHor ? _value++ : _value--);
+      setState(() {
+        if (isHor) {
+          _value++;
+        } else if (widget.signed || _value > 0) {
+          _value--;
+        }
+      });
       changed = true;
     }
     if (widget.withSpring) {
       final SpringDescription _kDefaultSpring =
-          new SpringDescription.withDampingRatio(
+          SpringDescription.withDampingRatio(
         mass: 0.9,
         stiffness: 250.0,
         ratio: 0.6,
@@ -190,9 +216,8 @@ class _Stepper2State extends State<StepperTouch>
       }
     } else {
       _controller.animateTo(0.0,
-          curve: Curves.bounceOut, duration: Duration(milliseconds: 500));
+          curve: Curves.bounceOut, duration: const Duration(milliseconds: 500));
     }
-
     if (changed && widget.onChanged != null) {
       widget.onChanged(_value);
     }
