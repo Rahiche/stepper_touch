@@ -5,16 +5,17 @@ import 'package:flutter/physics.dart';
 /// from [Nikolay Kuchkarov](https://dribbble.com/shots/3368130-Stepper-Touch).
 /// i extended  the functionality to be more useful in real world applications
 class StepperTouch extends StatefulWidget {
-  const StepperTouch({
-    Key key,
-    this.initialValue,
-    this.onChanged,
-    this.direction = Axis.horizontal,
-    this.withSpring = true,
-    this.counterColor = const Color(0xFF6D72FF),
-    this.dragButtonColor = Colors.white,
-    this.buttonsColor = Colors.white,
-  }) : super(key: key);
+  const StepperTouch(
+      {Key key,
+      this.initialValue,
+      this.onChanged,
+      this.direction = Axis.horizontal,
+      this.withSpring = true,
+      this.counterColor = const Color(0xFF6D72FF),
+      this.dragButtonColor = Colors.white,
+      this.buttonsColor = Colors.white,
+      this.signed = true})
+      : super(key: key);
 
   /// the orientation of the stepper its horizontal or vertical.
   final Axis direction;
@@ -32,6 +33,10 @@ class StepperTouch extends StatefulWidget {
   final Color counterColor;
   final Color dragButtonColor;
   final Color buttonsColor;
+
+  /// if you want to accept negative values.
+  /// defaults to true
+  final bool signed;
 
   @override
   _Stepper2State createState() => _Stepper2State();
@@ -100,9 +105,9 @@ class _Stepper2State extends State<StepperTouch>
                 bottom: widget.direction == Axis.horizontal ? null : 10.0,
                 child: GestureDetector(
                     onTap: () {
-                      setState(() {
+                      if (widget.signed || _value > 0) {
                         _value--;
-                      });
+                      }
                     },
                     child: Icon(Icons.remove,
                         size: 40.0, color: widget.buttonsColor)),
@@ -181,10 +186,23 @@ class _Stepper2State extends State<StepperTouch>
     bool isHor = widget.direction == Axis.horizontal;
     bool changed = false;
     if (_controller.value <= -0.20) {
-      setState(() => isHor ? _value-- : _value++);
+      setState(() {
+        if (isHor) {
+          if (widget.signed || _value > 0) {
+            _value--;
+          }
+        } else
+          _value++;
+      });
       changed = true;
     } else if (_controller.value >= 0.20) {
-      setState(() => isHor ? _value++ : _value--);
+      setState(() {
+        if (isHor) {
+          _value++;
+        } else if (widget.signed || _value > 0) {
+          _value--;
+        }
+      });
       changed = true;
     }
     if (widget.withSpring) {
