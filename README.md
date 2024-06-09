@@ -3,7 +3,7 @@
    <img alt="Awesome Flutter" src="https://img.shields.io/badge/Awesome-Flutter-blue.svg?longCache=true&style=flat-square" />
 </a>
 
- the concept of the widget inspired
+ The concept of the widget inspired
  from [Nikolay Kuchkarov](https://dribbble.com/shots/3368130-Stepper-Touch).
  i extended  the functionality to be more useful in real world applications
 
