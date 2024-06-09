@@ -1,8 +1,8 @@
 name: stepper_touch
 description: A flutter stepper widget with nice and smooth swipe animation
-version: 0.0.3
-author: Raouf Rahiche <rraouf30@gmail.com>
+version: 1.0.0
 homepage: https://github.com/Rahiche/stepper_touch
+topics: [ui, widgets]
 
 environment:
   sdk: '>=3.0.2 <4.0.0'
