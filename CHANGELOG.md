@@ -1,3 +1,9 @@
+## 1.0.0
+
+- Update to work with the latest version of flutter
+- Fix analyzer issues 
+- Null safety support 
+
 ## 0.0.2
 
 Code restructure to improve overall pub.dev rank and follow flutter

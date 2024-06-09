@@ -1,15 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stepper_touch/stepper_touch.dart';
 
-void main() => runApp(
-      MaterialApp(
-        theme: ThemeData(
-          scaffoldBackgroundColor: const Color(0xFF6D72FF),
-        ),
-        home: MyApp(),
-      ),
-    );
+void main() {
+  runApp(
+    MaterialApp(
+      theme: ThemeData(scaffoldBackgroundColor: const Color(0xFF6D72FF)),
+      home: MyApp(),
+    ),
+  );
+}
 
 class MyApp extends StatefulWidget {
   @override
