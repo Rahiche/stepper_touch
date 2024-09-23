@@ -10,8 +10,8 @@
 # Thank _You_!
 Please :star: this repo and share it with others
 
-# gif
-<img src="https://github.com/Rahiche/stepper_touch/blob/master/doc/steppergif.gif?raw=true" width="300"/>
+# Demo
+![stepper](https://github.com/user-attachments/assets/0bdf3bb4-66f3-4739-9f06-d30ea55dd984)
 
 ### Created
 
